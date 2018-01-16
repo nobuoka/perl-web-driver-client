@@ -59,17 +59,10 @@ sub new_session ($;%) {
   return $self->http_get (['status'], {})->then (sub {
     my $res = $_[0];
     my $json = $res->json;
-    my $maybe_chromedriver = (defined $json->{status} and
-                              not defined $json->{value}->{ready});
-
     if ($args{http_proxy_url}) {
-      $session_args->{desiredCapabilities}->{proxy} = $maybe_chromedriver ? {
+      $session_args->{desiredCapabilities}->{proxy} = {
         proxyType => 'manual',
         httpProxy => $args{http_proxy_url}->hostport,
-      } : {
-        proxyType => 'manual',
-        httpProxy => $args{http_proxy_url}->host->to_ascii,
-        httpProxyPort => $args{http_proxy_url}->port,
       };
     }
   })->then (sub {
