@@ -68,7 +68,7 @@ sub new_session ($;%) {
         httpProxy => $args{http_proxy_url}->hostport,
       } : {
         proxyType => 'manual',
-        httpProxy => $args{http_proxy_url}->host->to_ascii,
+        httpProxy => $args{http_proxy_url}->hostport,
         httpProxyPort => $args{http_proxy_url}->port,
       };
     }
